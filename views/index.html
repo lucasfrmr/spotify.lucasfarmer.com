@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Playback</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="max-w-5xl mx-auto my-4 bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="md:flex ">
+          <div class="md:shrink-0">
+            <img id="album-image" src="" alt="Album Image" class="h-48 w-full object-cover md:h-full md:w-48">
+            </div>
+            <div class="p-8">
+              <a  id="track-name" href="" target="_blank" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline"></a>
+              <div class="bg-white rounded-xl shadow-md p-4 mt-4">
+                <p id="track-artists" class="text-slate-500"></p>
+                <h2 id="track-name" class="text-lg leading-tight font-medium text-black mt-2"></h2>
+                <p id="track-album" class="text-slate-500"></p>
+                <p id="track-duration" class="text-slate-500"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 bg-white rounded-xl shadow-md p-4 overflow-hidden mx-4">
+    <nav class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+      <button id="dashboard-tab" class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">Dashboard</button>
+      <button id="history-tab" class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">History</button>
+      <button id="search-tab" class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">Search</button>
+      <button id="queue-tab" class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">Queue</button>
+    </nav>
+    <div id="dashboard-content" class="tab-content hidden">
+      <div class="max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="px-6 py-4">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-3">User Information</h2>
+          <div class="space-y-2">
+            <p class="text-gray-600"><span class="font-medium">Alias:</span> James</p>
+            <p class="text-gray-600"><span class="font-medium">Joined:</span> 2021-09-01</p>
+            <p class="text-gray-600"><span class="font-medium">Tracks in queue:</span> 123456789</p>
+            <p class="text-gray-600"><span class="font-medium">Playlists on deck:</span> 3</p>
+            <p class="text-gray-600"><span class="font-medium">Airtime today:</span> 123456789</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="history-content" class="tab-content hidden">
+      <div class="mt-5 bg-white rounded-xl shadow-md p-4 overflow-hidden mx-4">
+      <h2 class="text-center">James History</h2>
+        <div class="flex flex-col">
+          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div class="overflow-hidden">
+                <table id="history-table" class="min-w-full text-left text-sm font-light">
+                  <thead class="border-b font-medium dark:border-neutral-500">
+                    <tr>
+                      <th scope="col" class="px-6 py-4">Date Played</th>
+                      <th scope="col" class="px-6 py-4">Track Name</th>
+                      <th scope="col" class="px-6 py-4">Artist</th>
+                      <th scope="col" class="px-6 py-4">Album</th>
+                      <th scope="col" class="px-6 py-4">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-table-body">
+                    <!-- This is where history data will be displayed -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="search-content" class="tab-content hidden">
+      <h2 class="text-center">Search</h2>
+      <div class="flex items-center justify-center mb-4">
+        <div class="flex">
+          <input id="search-input" type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <button id="search-button" class="px-4 py-2 ml-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
+        </div>
+      </div>
+      <div class="mt-5 bg-white rounded-xl shadow-md p-4 overflow-hidden mx-4">
+        <div class="flex flex-col">
+          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div class="overflow-hidden">
+                <table id="search-table" class="min-w-full text-left text-sm font-light">
+                  <thead class="border-b font-medium dark:border-neutral-500">
+                    <tr>
+                      <th scope="col" class="px-6 py-4">Date Played</th>
+                      <th scope="col" class="px-6 py-4">Track Name</th>
+                      <th scope="col" class="px-6 py-4">Artist</th>
+                      <th scope="col" class="px-6 py-4">Album</th>
+                      <th scope="col" class="px-6 py-4">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody id="search-table-body">
+                    <!-- This is where search data will be displayed -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript" src="/js/tw-elements.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  // Initialize WebSocket when document is ready
+  $(document).ready(() => {
+    initializeWebSocket();
+  });
+
+    // function for converting milliseconds to minutes:seconds
+  function calculateDuration(duration) {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = Math.floor((duration % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  function displayPlaybackState(data) {
+    $('#album-href').attr('href', data.album_href);
+    $('#album-image').attr('src', data.album_image);
+    $('#track-href').attr('href', data.track_href);
+    $('#track-name').text(data.name);
+    $('#track-artists').text('Artist :    ' + data.artists.join(', '));
+    $('#track-album').text('Album Name: ' + data.album);
+    $('#track-duration').text('Duration:   ' + calculateDuration(data.duration_ms));
+  }
+
+    function displayHistoryData(historyData) {
+      const historyTableBody = document.getElementById('history-table-body');
+      historyTableBody.innerHTML = ''; // Clear existing content
+
+      function calculateDuration(duration) {
+        const minutes = Math.floor(duration / 60000);
+        const seconds = Math.floor((duration % 60000) / 1000);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    historyData.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="whitespace-nowrap px-6 py-4">${item.datePlayed}</td>
+        <td class="whitespace-nowrap px-6 py-4">${item.trackName}</td>
+        <td class="whitespace-nowrap px-6 py-4">${item.artist}</td>
+        <td class="whitespace-nowrap px-6 py-4">${item.album}</td>
+        <td class="whitespace-nowrap px-6 py-4">${calculateDuration(item.duration_ms)}</td>
+      `;
+      historyTableBody.appendChild(row);
+    });
+  }
+
+    function updateHistoryContent(historyData) {
+        const historyTableBody = document.querySelector('#history-table-body');
+        historyTableBody.innerHTML = ''; // Clear existing content
+
+        console.log(historyData);
+
+        historyData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="whitespace-nowrap px-6 py-4">${item.timestamp}</td>
+                <td class="whitespace-nowrap px-6 py-4">${item.name}</td>
+                <td class="whitespace-nowrap px-6 py-4">${item.artists[0]}</td>
+                <td class="whitespace-nowrap px-6 py-4">${item.album}</td>
+                <td class="whitespace-nowrap px-6 py-4">${calculateDuration(item.duration_ms)}</td>
+            `;
+            historyTableBody.appendChild(row);
+        });
+    }
+
+    function displaySearchData(searchData) {
+      const searchTableBody = document.getElementById('search-table-body');
+      // console.log(searchData);
+      searchTableBody.innerHTML = ''; // Clear existing content
+
+      if (Array.isArray(searchData.tracks.items)) {
+        searchData.tracks.items.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="whitespace-nowrap px-6 py-4">${item.album.name}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.name}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.artists[0].name}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.album.name}</td>
+            <td class="whitespace-nowrap px-6 py-4">${calculateDuration(item.duration_ms)}</td>
+          `;
+          searchTableBody.appendChild(row);
+        });
+      } else {
+        console.error('searchData.tracks.items is not an array');
+      }
+    }
+
+
+
+  // Global WebSocket variable
+  let ws;
+
+  // Function to initialize WebSocket connection
+  function initializeWebSocket() {
+    ws = new WebSocket(`wss://${window.location.hostname}`);
+
+    ws.addEventListener('open', () => {
+      console.log('WebSocket Connected!');
+      // ws.send(JSON.stringify({ type: 'history' })); // Initial data fetch
+    });
+
+    ws.addEventListener('message', (event) => {
+      const response = JSON.parse(event.data);
+      if (response.status !== 'error') {
+        handleWebSocketMessage(response);
+      } else {
+        console.error(response.message);
+      }
+    });
+
+    ws.addEventListener('close', () => {
+      console.log('WebSocket Disconnected. Attempting to reconnect...');
+      setTimeout(checkAndReconnectWebSocket, 4000);
+    });
+
+    ws.addEventListener('error', (error) => {
+      console.error('WebSocket Error:', error);
+    });
+  }
+
+    // Function to handle WebSocket messages
+    function handleWebSocketMessage(response) {
+      switch (response.type) {
+        case 'update-playback-state':
+        case 'recent-song':
+          displayPlaybackState(response.data);
+          break;
+        case 'history':
+          console.log('History data received');
+          updateHistoryContent(response.data);
+          break;
+        case 'search':
+
+          displaySearchData(response.data);
+          break;
+        // Handle other message types as needed
+      }
+    }
+
+    // Function to check and reconnect WebSocket if needed
+    function checkAndReconnectWebSocket() {
+      if (!ws || ws.readyState === WebSocket.CLOSED) {
+        initializeWebSocket();
+      }
+    }
+    
+    function fetchHistoryData() {
+      ws.send(JSON.stringify({ type: 'history' }));
+    }
+
+    function fetchSearchData(searchTerm) {
+      console.log('Search term: ' + searchTerm);
+      ws.send(JSON.stringify({ type: 'search' , data: { searchTerm }}));
+    }
+
+//Tab behavior
+  // Function to switch between tabs and show/hide content
+function switchTab(tabId) {
+  // Hide all tab content
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabContents.forEach(content => {
+    content.classList.add('hidden');
+  });
+
+  // Remove the "active" class from all tabs
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    console.log('Tab clicked ' + tab);
+    tab.classList.remove('active');
+  });
+
+  // Show the selected tab content and add the "active" class to the clicked tab
+  const selectedTab = document.getElementById(tabId);
+  if (selectedTab) {
+    selectedTab.classList.remove('hidden');
+    selectedTab.classList.add('active');
+  }
+}
+
+// Event listener for tab clicks
+$('#dashboard-tab').on('click', function (e) {
+  e.preventDefault();
+  switchTab('dashboard-content');
+});
+
+$('#history-tab').on('click', function (e) {
+  e.preventDefault();
+  switchTab('history-content')
+  fetchHistoryData();
+});
+
+$('#search-tab').on('click', function (e) {
+  e.preventDefault();
+  switchTab('search-content');
+  console.log('Search tab clicked');
+ 
+});
+
+$('#queue-tab').on('click', function (e) {
+  e.preventDefault();
+  switchTab('queue-content');
+});
+
+        // Get the search input and button elements
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+
+        // Add event listener for search button click
+        searchButton.addEventListener('click', () => {
+          const searchTerm = searchInput.value;
+          fetchSearchData(searchTerm);
+        });
+
+        // Add event listener for enter key press in search input
+        searchInput.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            const searchTerm = searchInput.value;
+            fetchSearchData(searchTerm);
+          }
+        });
+
+// Trigger the "Dashboard" tab to be active and show its content when the page loads
+$(document).ready(() => {
+  // switchTab('dashboard-content');
+});
+
+
+
+
+function updatePlayhead(progress_ms, trackDuration) {
+  const playheadSlider = document.getElementById('playhead');
+  if (!playheadSlider) return;
+
+  clearInterval(playheadInterval);
+
+  playheadInterval = setInterval(() => {
+    const playheadPercentage = (progress_ms / trackDuration) * 100;
+    playheadSlider.value = playheadPercentage;
+    progress_ms += 1000;
+    if (progress_ms > trackDuration) {
+      clearInterval(playheadInterval);
+    }
+  }, 1000);
+} 
+    
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</body>
+</html>

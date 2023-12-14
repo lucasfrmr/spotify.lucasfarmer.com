@@ -1,56 +1,78 @@
-// function getPlaybackState(refreshInterval) {
-// 	if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'get-playback-state' }));
-// 	setTimeout(() => {
-// 		getPlaybackState(refreshInterval);
-// 	}, refreshInterval);
-// }
-
 function displayPlaybackState(data) {
-	$('#album-href').attr('href', data.item.album.external_urls.spotify);
-	$('#album-image').attr('src', data.item.album.images[1].url);
-	$('#track-href').attr('href', data.item.external_urls.spotify);
-	$('#track-name').text(data.item.name);
-	let artists = [];
-	for(const artist of data.item.artists) {
-		artists.push(artist.name);
-	}
-	$('#track-artists').text(artists.join(', '));
+    $('#album-href').attr('href', data.album_href);
+    $('#album-image').attr('src', data.album_image);
+    $('#track-href').attr('href', data.track_href);
+    $('#track-name').text(data.name);
+    $('#track-artists').text(data.artists.join(', '));
 }
 
-$(document).ready(function() {
-	function connectWebSocket() {
-		ws = new WebSocket(`wss://${window.location.hostname}`);
+function updateHistoryContent(historyData) {
+    // Assuming historyData is an array of history items
+    const historyTableBody = document.querySelector('#history-tab tbody');
+    historyTableBody.innerHTML = ''; // Clear existing content
 
-		ws.addEventListener('open', (event) => {
-			console.log('WS Connected!');
-			getPlaybackState(4e3);
-		});
+    historyData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="whitespace-nowrap px-6 py-4">${item.datePlayed}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.trackName}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.artist}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.album}</td>
+            <td class="whitespace-nowrap px-6 py-4">${item.duration}</td>
+        `;
+        historyTableBody.appendChild(row);
+    });
+}
 
-		ws.addEventListener('message', (event) => {
-			const response = JSON.parse(event.data);
-			consol.log(trackData);
-			if (response.data.status !== 'error') {
-				switch (response.type) {
-					case 'update-playback-state':
-						console.log(response.data);
-						displayPlaybackState(response.data);
-						break;
-					case 'get-track':
-						console.log(response.data);
-						break;
-				}
-			} else {
-				console.error(response.data.message);
-			}
-		});
+function connectWebSocket() {
+    const ws = new WebSocket(`wss://${window.location.hostname}`);
 
-		ws.addEventListener('close', (event) => {
-			console.log('WS Disconnected! Attempting to reconnect...');
-			setTimeout(() => {
-				connectWebSocket();
-			}, 4e3);
-		});
-	}
+    ws.addEventListener('open', () => {
+        console.log('WebSocket Connected!');
+        // No need to send a message here; server will send recent-song on connection
+    });
 
-	connectWebSocket();
+    ws.addEventListener('message', (event) => {
+        const response = JSON.parse(event.data);
+        if (response.status !== 'error') {
+            if (response.type === 'update-playback-state' || response.type === 'recent-song') {
+                displayPlaybackState(response.data);
+            }
+        } else {
+            console.error(response.message);
+        }
+    });
+
+    ws.addEventListener('open', () => {
+        console.log('WebSocket Connected!');
+        // Request history data after establishing connection
+        ws.send(JSON.stringify({ type: 'get-history' }));
+    });
+
+    ws.addEventListener('message', (event) => {
+        const response = JSON.parse(event.data);
+        if (response.status !== 'error') {
+            if (response.type === 'update-playback-state' || response.type === 'recent-song') {
+                displayPlaybackState(response.data);
+            } else if (response.type === 'history-data') {
+                // Handle the history data
+                updateHistoryContent(response.data);
+            }
+        } else {
+            console.error(response.message);
+        }
+    });
+
+    ws.addEventListener('close', () => {
+        console.log('WebSocket Disconnected. Attempting to reconnect...');
+        setTimeout(connectWebSocket, 4000);
+    });
+
+    ws.addEventListener('error', (error) => {
+        console.error('WebSocket Error:', error);
+    });
+}
+
+$(document).ready(() => {
+    connectWebSocket();
 });

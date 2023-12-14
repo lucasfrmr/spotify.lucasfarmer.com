@@ -1,17 +1,25 @@
 {
-  "name": "spotify.jamestgh.com",
+  "name": "spotify.lucasfarmer.com",
   "version": "1.0.0",
-  "description": "Spotify Web App by JamesTGH",
-  "homepage": "https://github.com/JamesTGH/spotify.jamestgh.com",
+  "description": "Node.js web app for controlling Spotify.",
+  "homepage": "https://spotify.lucasfarmer.com",
   "license": "UNLICENSED",
-  "main": "index.mjs",
+  "main": "app.mjs",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node app.mjs",
+    "build:css": "npx postcss src/styles.css -o public/css/styles.css"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.16",
     "cron": "^3.1.6",
     "express": "^4.18.2",
     "mongodb": "^6.3.0",
+    "postcss": "^8.4.32",
+    "postcss-cli": "^11.0.0",
+    "tw-elements": "^1.1.0",
     "ws": "^8.15.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.6"
   }
 }
